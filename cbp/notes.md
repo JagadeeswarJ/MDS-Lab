@@ -54,3 +54,6 @@ model = Sequential([
 ])
 model.compile(optimizer='adam', loss='mean_squared_error')
 ```
+
+
+use lstm and compare with linear regresion
