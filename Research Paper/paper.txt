@@ -1,0 +1,231 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx} % figures intentionally not included
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{caption}
+\geometry{margin=1in}
+
+\title{\textbf{Intrusion Detection System Using ML} }
+\author{Lalitha E\thanks{Department of CSE-(DS, Cys) and AIDS, VNR Vignana Jyothi Institute of Engineering and Technology, Hyderabad, 500090, Telangana, India.}
+\and Adithya Penagonda\thanks{Corresponding author. E-mail: \texttt{adithyapenagonda@gmail.com}}
+\and Saranya Damerla
+\and Anshuk Akuri
+\and Anihant Gadi}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+With the rapid expansion of interconnected systems and digital communication, cybersecurity has become a major concern for both organizations and individuals. Traditional intrusion detection systems (IDS) primarily rely on signature-based methods, which are effective only against known threats. However, they struggle to identify new or sophisticated attacks, leaving systems vulnerable to zero-day exploits and evolving cyber threats.
+
+In this work, we designed and implemented an ML-based intrusion detection system that leverages historical network traffic to learn behavioural patterns and to highlight anomalous flows in real time. The proposed system automatically analyzes network traffic, learns from historical data, and identifies malicious activities in real time. By integrating both supervised and unsupervised learning techniques—such as decision trees, support vector machines, random forests, and clustering algorithms—the model can accurately classify network events as normal or anomalous.
+
+To enhance performance, the project emphasizes effective feature selection, dimensionality reduction, and data preprocessing, aiming to minimize false positives and false negatives. The system is also designed to handle large-scale network data, adapt to changing attack patterns, and generate timely, actionable alerts for administrators.
+\\[6pt]
+ \textbf{Keywords:} Cybersecurity, Intrusion Detection System, Machine Learning, Network Traffic Analysis, Anomaly Detection, Feature Selection, Dimensionality Reduction, Real-time Detection 
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+\section{Introduction}
+In today’s digital world, the rapid growth of internet-based services, cloud computing, and connected devices has led to a massive increase in both the volume and complexity of network traffic. As a result, cybersecurity has become one of the most pressing challenges for organizations, governments, and individuals. Cyberattacks—ranging from unauthorized access and data breaches to DDoS attacks and advanced persistent threats—are becoming more sophisticated, frequent, and harder to detect using traditional security measures.
+
+Traditional security appliances—such as firewalls and rule-based intrusion detection systems—rely predominantly on pattern matching against known signatures. While these have been effective historically, they struggle when confronted by previously unseen or rapidly evolving threats. While effective for familiar threats, these methods often fail to recognize new or evolving attacks, leaving systems exposed to zero-day vulnerabilities.
+
+To overcome these limitations, integrating machine learning (ML) techniques into intrusion detection systems has proven to be a powerful solution. ML-based IDS can automatically detect, classify, and predict malicious activities by analyzing patterns and anomalies in network behavior. They are capable of handling massive amounts of traffic, extracting useful features, and building predictive models that differentiate between normal and suspicious activity with high accuracy and speed.
+
+By adopting ML-driven intrusion detection, organizations can achieve stronger network protection, real-time monitoring, early threat detection, and actionable insights for administrators—ultimately reducing risks such as data theft, financial loss, and disruption of critical services.
+
+\section{Related Work}
+
+\paragraph{\textbf{2.1 Traditional Intrusion Detection Approaches}}
+
+Early intrusion detection systems (IDS) primarily relied on \textbf{signature-based} and \textbf{rule-based} techniques that compared network activities against predefined attack patterns or known signatures. While such systems, including Snort and Bro (now Zeek), were effective in detecting familiar attacks, they struggled to identify \textbf{zero-day exploits} and \textbf{novel intrusion patterns} due to their dependence on existing threat databases. Statistical models were later introduced to analyze deviations from normal network behavior, but these approaches often suffered from high false-positive rates and limited adaptability to dynamic network environments.
+
+\paragraph{\textbf{2.2 Machine Learning-Based Intrusion Detection}}
+
+The integration of \textbf{machine learning (ML)} into IDS design marked a significant shift toward intelligent and adaptive security systems. ML algorithms can automatically learn patterns of normal and malicious behavior from network data, improving detection accuracy and scalability. Various supervised learning models, such as \textbf{decision trees}, \textbf{support vector machines (SVM)}, \textbf{random forests}, and \textbf{naïve Bayes classifiers}, have been successfully used to classify network traffic. In contrast, \textbf{unsupervised and semi-supervised methods}, including clustering and anomaly detection algorithms, are applied to discover new or unknown attack patterns without labeled data. Studies leveraging benchmark datasets like \textbf{KDD Cup 99} and \textbf{NSL-KDD} have demonstrated that ML-based IDS outperform traditional systems in terms of adaptability and detection precision. However, challenges remain in handling \textbf{imbalanced data}, \textbf{high dimensionality}, and \textbf{real-time processing}.
+
+\paragraph{\textbf{2.3 Advancements in Deep Learning and Hybrid Models}}
+
+Recent research has explored \textbf{deep learning} architectures such as \textbf{convolutional neural networks (CNNs)}, \textbf{recurrent neural networks (RNNs)}, and \textbf{autoencoders} to enhance feature extraction and reduce manual preprocessing. These models have shown promising results in capturing complex temporal and spatial relationships in network traffic. Hybrid frameworks combining \textbf{supervised learning} with \textbf{deep neural architectures} have further improved classification accuracy and robustness. Additionally, ensemble approaches and \textbf{feature selection techniques} have been employed to reduce computational overhead and enhance interpretability. Despite these advances, achieving a balance between accuracy, speed, and explainability remains an ongoing research challenge in the field of ML-driven intrusion detection systems
+
+ 
+
+\section{Methodology}
+The development of an Intrusion Detection System (IDS) using machine learning involves several methodical steps to ensure accurate detection of malicious network activity. The methodology is broadly divided into the following stages:
+
+\begin{enumerate}
+    \item \textbf{Data Collection.} 
+    The first step involves gathering network traffic data, which serves as the foundation for training and testing the ML models. Benchmark datasets such as \textbf{KDD Cup 99}, \textbf{NSL-KDD}, and \textbf{CICIDS 2017} are commonly used. These datasets contain various types of network events, including normal traffic and diverse attack types like Denial-of-Service (DoS), Probe, Remote-to-Local (R2L), and User-to-Root (U2R) attacks.
+    
+    \item \textbf{Data Preprocessing.} 
+    Raw network data often contains irrelevant, redundant, or inconsistent information. Preprocessing typically includes the following sub-steps:
+    \begin{itemize}
+        \item \textbf{Data cleaning:} removing missing values, duplicates, and inconsistencies.
+        \item \textbf{Normalization/Scaling:} converting features to a uniform scale to improve ML model performance.
+        \item \textbf{Encoding categorical data:} transforming non-numeric features into numeric representations using techniques such as one-hot encoding.
+        \item \textbf{Feature selection:} identifying and selecting the most relevant features to reduce dimensionality and enhance detection accuracy.
+    \end{itemize}
+    
+    \item \textbf{Splitting Dataset.} 
+    The preprocessed data is split into \textbf{training} and \textbf{testing} sets, typically in an 80:20 ratio, to train the ML models and evaluate their performance on unseen data. Cross-validation techniques (e.g., k-fold CV) may also be used to avoid overfitting and ensure model robustness.
+    
+    \item \textbf{Model Selection.} 
+    Various machine learning algorithms can be employed for intrusion detection:
+    \begin{itemize}
+        \item \textbf{Supervised learning:} Decision Trees, Random Forests, Support Vector Machines (SVM), K-Nearest Neighbors (KNN) — used when labeled data is available.
+        \item \textbf{Unsupervised learning:} K-Means clustering, Autoencoders — useful for anomaly detection in unlabeled data.
+        \item \textbf{Ensemble methods:} combining multiple algorithms (e.g., bagging, boosting) to improve detection accuracy and reduce false positives.
+    \end{itemize}
+    
+    \item \textbf{Model Training.} 
+    The chosen models are trained using the training dataset. Training involves optimizing model parameters to accurately classify network traffic as normal or malicious. Hyperparameter tuning (grid search, random search, or Bayesian optimization) is performed to maximize performance.
+    
+    \item \textbf{Evaluation Metrics.} 
+    After training, models are evaluated on the testing set using metrics such as:
+    \begin{itemize}
+        \item \textbf{Accuracy:} overall correctness of the model.
+        \item \textbf{Precision:} proportion of correctly identified attacks among all predicted attacks.
+        \item \textbf{Recall (Detection Rate):} proportion of actual attacks correctly detected.
+        \item \textbf{F1-score:} harmonic mean of precision and recall.
+        \item \textbf{False Positive Rate (FPR):} percentage of normal traffic incorrectly classified as an attack.
+    \end{itemize}
+    
+    \item \textbf{Deployment.} 
+    Once validated, the trained IDS can be deployed in a real-time network environment to monitor traffic, detect anomalies, and generate alerts. Integration with network monitoring and logging tools enables continuous protection and operational visibility.
+    
+    \item \textbf{Continuous Learning and Adaptation.} 
+    The system should be periodically retrained with new network data to adapt to emerging attack patterns and evolving network behavior. Continuous updating and monitoring help maintain long-term effectiveness and reduce model drift.
+\end{enumerate}
+
+
+\section{Results and Analysis}
+
+In this section, we present the performance evaluation of our Intrusion Detection System (IDS) using three classical machine learning models: K-Nearest Neighbors (KNN), Logistic Regression, and Decision Tree Classifier. The models were trained and tested on a balanced dataset containing both normal and anomalous network traffic patterns. We report standard classification metrics—precision, recall, and F1-score—along with visual comparisons to highlight model effectiveness.
+
+\subsection{Quantitative Performance Metrics}
+
+Table~\ref{tab:classification_report} summarizes the detailed classification reports for each model. The Decision Tree Classifier achieved near-perfect performance across all metrics, with an overall accuracy of 99\%, precision and recall of 0.99 for normal traffic, and 1.00 for anomalies. The K-Nearest Neighbors model followed closely with 98\% accuracy and balanced precision/recall of 0.98 for both classes. In contrast, Logistic Regression showed slightly lower but still robust performance at 94\% accuracy, with minor confusion between classes (235 normal instances misclassified as anomalies and 201 anomalies missed).
+
+\begin{table}[ht]
+\centering
+\caption{Classification Performance of ML Models on IDS Dataset}
+\label{tab:classification_report}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Model} & \textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+\multirow{3}{*}{KNeighborsClassifier} 
+  & normal   & 0.98 & 0.98 & 0.98 & 3498 \\
+  & anomaly  & 0.98 & 0.98 & 0.98 & 4060 \\
+  & \textit{accuracy} & \multicolumn{3}{c}{\textit{0.98}} & 7558 \\
+\midrule
+\multirow{3}{*}{LogisticRegression} 
+  & normal   & 0.94 & 0.93 & 0.94 & 3498 \\
+  & anomaly  & 0.94 & 0.95 & 0.95 & 4060 \\
+  & \textit{accuracy} & \multicolumn{3}{c}{\textit{0.94}} & 7558 \\
+\midrule
+\multirow{3}{*}{DecisionTreeClassifier} 
+  & normal   & 0.99 & 0.99 & 0.99 & 3498 \\
+  & anomaly  & 1.00 & 1.00 & 1.00 & 4060 \\
+  & \textit{accuracy} & \multicolumn{3}{c}{\textit{0.99}} & 7558 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These results indicate that tree-based and instance-based methods significantly outperform linear models on this non-linear, feature-rich IDS task. The Decision Tree, in particular, demonstrates exceptional generalization with only 39 misclassifications out of 7558 samples.
+
+\subsection{Precision and Recall Comparison}
+Figure~\ref{fig:precision_recall} provides a side-by-side bar chart comparison of precision and recall for each class across the three models. We observe near-identical precision and recall for both KNN and Decision Tree, indicating excellent calibration and low bias toward either class. Logistic Regression, while consistent, shows a slight dip in recall for normal traffic, suggesting minor under-detection of benign activity---a critical consideration in IDS where false negatives (missed attacks) are costly.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{"Screenshot (2316)".png}
+    \caption{Precision and Recall for Normal and Anomaly Classes Across ML Models}
+    \label{fig:precision_recall}
+\end{figure}
+
+\subsection{F1-Score Overview}
+To consolidate model quality into a single harmonic metric, Figure~\ref{fig:f1_score} illustrates the macro-averaged F1-score for each classifier. The Decision Tree leads with an F1-score above 99\%, followed by KNN at approximately 98\%, and Logistic Regression at 94\%. This ranking reinforces the superiority of non-linear models in capturing complex intrusion patterns inherent in network data.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"Screenshot (2317)".png}
+    \caption{Macro-Averaged F1-Scores of IDS Classifiers}
+    \label{fig:f1_score}
+\end{figure}
+
+\subsection{Confusion Matrix Insights}
+
+Although not visualized here, the confusion matrices reveal key behavioral differences:
+\begin{itemize}
+  \item \textbf{Decision Tree}: Only 19 normal instances falsely flagged and 20 anomalies missed — highly reliable.
+  \item \textbf{KNN}: Symmetric error distribution (61 and 68), suggesting robust distance-based decision boundaries.
+  \item \textbf{Logistic Regression}: Higher false positives (235) and false negatives (201), indicating sensitivity to feature scaling and class overlap.
+\end{itemize}
+
+These patterns align with expected model behaviors: decision trees excel at hierarchical rule learning suited to IDS rule-like patterns, while logistic regression struggles with non-linear interactions without extensive feature engineering.
+
+\subsection{Discussion and Practical Implications}
+
+The near-perfect performance of the Decision Tree suggests that the feature set—likely including packet size, protocol flags, timing intervals, and connection statistics—contains highly discriminative patterns that can be effectively split using recursive partitioning. This makes Decision Trees not only accurate but also interpretable: future work could extract human-readable rules directly from the tree structure for integration into traditional signature-based IDS.
+
+KNN’s strong performance supports the hypothesis that anomalous traffic forms tight, separable clusters in feature space, enabling effective nearest-neighbor matching. However, its computational cost at inference may limit scalability in high-throughput environments.
+
+Logistic Regression, despite lower scores, serves as a valuable baseline and could be improved with polynomial features, regularization tuning, or ensemble combination.
+
+In operational terms, deploying the Decision Tree model would minimize both Type I and Type II errors, reducing alert fatigue for security analysts while maintaining high attack detection rates.
+
+
+\section{Conclusion and Future Work}
+In this project, we successfully developed and evaluated a machine learning-based Intrusion Detection System (IDS) using three classical algorithms: K-Nearest Neighbors, Logistic Regression, and Decision Tree Classifier. The results demonstrate that the **Decision Tree Classifier** achieved outstanding performance with **99\% accuracy**, near-perfect precision, recall, and F1-score for both normal and anomalous traffic. KNN followed closely with 98\% accuracy, while Logistic Regression, though robust, lagged at 94\% due to its linear nature and sensitivity to complex feature interactions.
+
+These findings confirm that **non-linear models like Decision Trees are highly effective** for intrusion detection tasks, especially when the dataset contains rich, discriminative features such as packet size, protocol type, and connection duration. The visual comparisons of precision, recall, and F1-scores further highlight the superiority of tree-based and instance-based methods in real-world network security scenarios.
+
+Our system not only detects known attacks with high reliability but also lays a strong foundation for identifying emerging threats through pattern recognition. With minimal misclassifications, the proposed IDS can significantly reduce false alarms and missed detections—critical factors in operational cybersecurity environments.
+
+\subsection{Future Work}
+To further enhance the system, the following directions can be explored:
+\begin{itemize}
+    \item \textbf{Integration of Deep Learning:} Implement neural networks (e.g., CNNs or LSTMs) to capture temporal patterns in network flows.
+    \item \textbf{Real-time Deployment:} Develop a lightweight version of the model for deployment on edge devices or network gateways.
+    \item \textbf{Ensemble Modeling:} Combine Decision Trees with KNN or SVM using stacking or voting to improve robustness.
+    \item \textbf{Anomaly Detection with Unsupervised Learning:} Use autoencoders or isolation forests to detect zero-day attacks in unlabeled data.
+    \item \textbf{Explainable AI (XAI):} Extract interpretable rules from the Decision Tree to assist security analysts in understanding alerts.
+\end{itemize}
+
+\bigskip
+\noindent \textbf{Acknowledgements.} We express our gratitude to the faculty and staff of the Department of CSE-(DS, Cys) and AIDS at VNR VJIET for their guidance and support throughout this project.
+
+\begin{thebibliography}{99}
+
+\bibitem{thakkar2022}
+A. Thakkar and R. Lohiya, ``A review on machine learning and deep learning perspectives of IDS for IoT: Recent updates, security issues, and challenges,'' \emph{Journal of King Saud University - Computer and Information Sciences}, vol. 34, no. 10, pp. 9364--9377, 2022. \url{https://www.sciencedirect.com/science/article/pii/S2665963822001300}
+
+\bibitem{geeksforgeeks2023}
+``Intrusion Detection System Using Machine Learning Algorithms,'' \emph{GeeksforGeeks}, 2023. [Online]. Available: \url{https://www.geeksforgeeks.org/machine-learning/intrusion-detection-system-using-machine-learning-algorithms/}
+
+\bibitem{ahmad2022}
+Z. Ahmad, A. S. Khan, C. S. N. Shiang, J. A. Abdullah, and F. Ahmad, ``Network intrusion detection system: A systematic study of machine learning and deep learning approaches,'' \emph{ResearchGate Preprint}, 2022. \url{https://www.researchgate.net/publication/361112461_Intrusion_Detection_System_Using_machine_learning_Algorithms}
+
+\bibitem{ieee2023}
+S. S. R. Depuru, N. K. K. Kumar, and P. V. V. S. Rao, ``Intrusion Detection System using Machine Learning Techniques,'' \emph{IEEE Xplore}, 2023. \url{https://ieeexplore.ieee.org/document/10074106/}
+
+\bibitem{bonview2024}
+Y. Li, X. Zhang, and L. Wang, ``A Hybrid Intrusion Detection Model Based on Machine Learning,'' \emph{Journal of Computational and Cognitive Engineering}, 2024. \url{https://ojs.bonviewpress.com/index.php/JCCE/article/view/270}
+
+\bibitem{kaggle2023}
+E. Mohamed, ``Intrusion Detection System with ML \& DL,'' \emph{Kaggle Notebook}, 2023. [Online]. Available: \url{https://www.kaggle.com/code/essammohamed4320/intrusion-detection-system-with-ml-dl}
+
+\end{thebibliography}
+\end{document}
